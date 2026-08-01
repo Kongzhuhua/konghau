@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>空华的站点</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空华 · 电商产品摄影/后期作品集</title>
+    <meta name="description" content="空华 — 电商产品摄影师 / 后期师，擅长黑底图、白底图、SKU、效果图、详情页全流程制作">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>欢迎来到空华的个人作品集！</h1>
-    <p>网站正在建设中，敬请期待...</p>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#hero" class="logo">空华 · KONGHUA</a>
+                <ul class="nav-links" id="nav-links"></ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1 class="hero-title">空华</h1>
+            <p class="hero-sub">电商产品摄影师 · 后期师</p>
+            <p class="hero-desc" id="hero-desc"></p>
+            <div class="hero-tags" id="hero-tags"></div>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="blocks"></section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p id="footer-note"></p>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox hidden">
+        <button class="lb-close" id="lb-close">&times;</button>
+        <button class="lb-prev" id="lb-prev">&#8249;</button>
+        <img id="lb-img" src="" alt="">
+        <button class="lb-next" id="lb-next">&#8250;</button>
+        <div class="lb-caption" id="lb-caption"></div>
+    </div>
+
+    <script src="data/works.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
