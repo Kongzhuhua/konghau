@@ -40,7 +40,7 @@
         sec.id = "block-" + (bi + 1);
 
         const head = document.createElement("div");
-        head.className = "block-head";
+        head.className = "block-head reveal";
         const h = document.createElement("h2");
         h.className = "block-title";
         h.textContent = b.title;
@@ -59,7 +59,7 @@
 
         (b.items || []).forEach((it) => {
             const card = document.createElement("div");
-            card.className = "card";
+            card.className = "card reveal";
             card.dataset.bi = bi;
 
             const wrap = document.createElement("div");
@@ -139,4 +139,52 @@
         if (e.key === "ArrowLeft") step(-1);
         if (e.key === "ArrowRight") step(1);
     });
+
+    // ===== 滚动视差 + 淡入 =====
+    var hero = document.querySelector(".hero");
+
+    // 淡入：元素进入视口 20% 时浮现
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll(".reveal").forEach(function (el) {
+        io.observe(el);
+    });
+
+    // 视差：卡片图片按距视口底部距离轻微上移；hero 随滚动渐隐
+    var pvImages = document.querySelectorAll(".card-img-wrap");
+    var ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+            var vh = window.innerHeight;
+            pvImages.forEach(function (el) {
+                if (el.closest(".card").classList.contains("in-view")) {
+                    var r = el.getBoundingClientRect();
+                    var factor = Math.min(1, Math.max(-1, (r.top + r.height / 2 - vh / 2) / (vh / 2)));
+                    el.style.transform = "translateY(" + (factor * 10) + "px)";
+                }
+            });
+            if (hero) {
+                var h = hero.getBoundingClientRect();
+                if (h.top < 0) {
+                    var gone = Math.min(1, -h.top / (h.height * 0.6));
+                    hero.style.opacity = 1 - gone;
+                    hero.style.transform = "translateY(" + (gone * -30) + "px)";
+                } else {
+                    hero.style.opacity = 1;
+                    hero.style.transform = "translateY(0)";
+                }
+            }
+            ticking = false;
+        });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 })();
